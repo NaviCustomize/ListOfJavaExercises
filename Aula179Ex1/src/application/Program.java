@@ -25,8 +25,8 @@ public class Program {
 			 * Performance
 			 */
 		
-		for(int i = 0;i <= n; i++) {
-			int value = sc.nextInt();
+		for(int i = 0;i < n; i++) {
+			Integer value = sc.nextInt();
 			ps.addValue(value);
 		}
 		

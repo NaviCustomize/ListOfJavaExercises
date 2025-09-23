@@ -24,7 +24,10 @@ public class PrintService<T> {
 	public void print() {
 		System.out.print("[");
 		if(!list.isEmpty()) {
-			System.out.println(", " + list.get(0));
+			System.out.print(list.get(0));
+		}
+		for(int i = 1;i< list.size();i++) {
+			System.out.print(", " + list.get(i));
 		}
 		System.out.println("]");
 	}
