@@ -8,58 +8,48 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import entities.Account;
+import model.entities.Employee;
 
 public class Program {
-	//c:\Windows\Temp\in4.txt
-	public static void main(String [] args) {
-		
+
+	public static void main(String[] args) {
+		// c:\Windows\Temp\in4.txt
 		Scanner sc = new Scanner(System.in);
-		
+
 		System.out.print("Enter full file path: ");
 		String path = sc.nextLine();
-		
+
 		System.out.print("Enter salary: ");
-		Double salary = sc.nextDouble();
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(path))){
-			
-			List<Account> list = new ArrayList<>();
+		double salary = sc.nextDouble();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+
 			String line = br.readLine();
-			
-			while(line!=null) {
-				
+			List<Employee> list = new ArrayList<>();
+
+			while (line != null) {
 				String[] fields = line.split(",");
-				
-				list.add(new Account(fields[0], fields[1], Double.parseDouble(fields[2])));
-				
+				list.add(new Employee(fields[0], fields[1], Double.parseDouble(fields[2])));
 				line = br.readLine();
 			}
-			
-				List<String> emails = list.stream()
-						.filter(a -> a.getPrice() > salary)
-						.map(a -> a.getEmail())
-						.sorted()
-						.collect(Collectors.toList());
-				
-				System.out.println("email of people whose salary is more than " + String.format("%.2f", salary));
-				emails.forEach(System.out::println);
 
-				
-				double sum = list.stream()
-						.filter(a -> a.getUsename().charAt(0)=='M')
-						.map(a -> a.getPrice())
-						.reduce(0.0,(a , b) -> a + b);
-				
-				System.out.println("Sum of salary from people whose name starts with 'M': " + String.format("%.2f", sum));
-						
-				
-		}
-		catch(IOException e) {
+			System.out.println("Email of people whose salary is more than 2000.00:");
+
+			List<String> listOfEmail = list.stream().filter(e -> e.getSalary() > salary).map(e -> e.getEmail()).sorted()
+					.collect(Collectors.toList());
+
+			listOfEmail.forEach(System.out::println);
+
+			double sum = list.stream().filter(e -> e.getUsername().charAt(0) == 'M').map(e -> e.getSalary()).sorted()
+					.reduce(0.0, (a, b) -> a + b);
+
+			System.out.print("Sum of salary of people whose name starts with 'M': " + sum);
+
+		} catch (IOException e) {
 			System.out.println("Error: " + e.getMessage());
+		} finally {
+			sc.close();
 		}
-		
-		sc.close();
 	}
-	
+
 }
